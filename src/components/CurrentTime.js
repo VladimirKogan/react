@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import './myStyles.css';
+import './styles/myStyles.css';
+import './styles/clock.css';
+import './styles/clockBtns.css';
+
 class CurrentTime extends Component{
     constructor(props){
         super(props);
@@ -31,9 +34,6 @@ class CurrentTime extends Component{
         clearInterval(this.intervalID);
     }
 
-    tack(){
-
-    }
 
     tick() {
         let time = new Date().getDay();

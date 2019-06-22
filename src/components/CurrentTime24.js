@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import './myStyles.css';
+import './styles/myStyles.css';
+import './styles/clock.css';
+import './styles/clockBtns.css';
+
 class CurrentTime24 extends Component{
     constructor(props){
         super(props);
@@ -23,16 +26,11 @@ class CurrentTime24 extends Component{
     componentDidMount(){
         this.intervalID = setInterval(
         () => this.tick(),
-        () => this.tack(),
         1000
         );
     }
     componentWillUnmount(){
         clearInterval(this.intervalID);
-    }
-
-    tack(){
-
     }
 
     tick() {
