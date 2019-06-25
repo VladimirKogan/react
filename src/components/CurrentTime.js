@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import './styles/myStyles.css';
 import './styles/clock.css';
 import './styles/clockBtns.css';
+import logo from './img/bell.png';
+import logo1 from './img/bell1.png';
 
 class CurrentTime extends Component{
     constructor(props){
         super(props);
         this.state = {
-            time: new Date().toLocaleString(),
+            alarmOn: false,
+            alarmWork: false,
+            time: new Date(),
             hours: new Date().getHours(),
             minute: new Date().getMinutes().toLocaleString(),
             seconds: new Date().getSeconds().toLocaleString(),
@@ -23,10 +27,22 @@ class CurrentTime extends Component{
                 ]
         };
     }
+    isAlarmOn(){
+        if(sessionStorage.getItem('time') != ''){
+            this.setState({
+                alarmOn: true
+            });
+        }else{
+            this.setState({
+                alarmOn: false,
+                alarmWork: false
+            });
+        }
+    }
+
     componentDidMount(){
         this.intervalID = setInterval(
         () => this.tick(),
-        () => this.tack(),
         1000
         );
     }
@@ -44,6 +60,7 @@ class CurrentTime extends Component{
                 this.state.weekDay[i].status = 'unactive';
             }
         }
+        this.isAlarmOn();
         this.setState({
 
             time: new Date(),
@@ -63,10 +80,16 @@ class CurrentTime extends Component{
             secondsD: (new Date().getSeconds()%10),
             secondsS: Math.floor((new Date().getSeconds()/10))
         });
+        if(sessionStorage.getItem('time') && this.state.time.getTime() >= sessionStorage.getItem('time')){
+                this.setState({alarmWork : !this.state.alarmWork})
+
+        }
     }
     render(){
         return(
             <div className="display">
+            <img className={this.state.alarmOn?"bell":"hide bell"} src={logo} alt=""/>
+            <img className={this.state.alarmOn? (this.state.alarmWork?"bell":"hide bell"):"hide"} src={logo1} alt=""/>
                 <div className="weekdays"><div className="weekday">{this.state.weekDay.map((item) => <span className={item.status}>{item.day}</span>)}</div></div>
                 <div className={"ampm " + this.state.ampm}>{this.state.ampm}</div>
                 <div className="digits">
